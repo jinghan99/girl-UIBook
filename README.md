@@ -1,4 +1,4 @@
-# girl-uibook2
+# book
 
 ## Project setup
 ```
