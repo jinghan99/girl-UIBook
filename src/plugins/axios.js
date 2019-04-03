@@ -1,5 +1,5 @@
 import axios from 'axios';
-import qs from 'qs';
+import Qs from 'qs';
 import { Toast } from 'vant';
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -111,11 +111,13 @@ export function fetch(url, params = {}) {
  * @param url
  * @param data
  * @returns {Promise}
+ * post方法必须要使用对提交从参数对象进行序列化的操作
+ * qs模块来序列化我们的参数
  */
 
 export function post(url, data = {}) {
   return new Promise((resolve, reject) => {
-    http.post(url, data)
+    http.post(url, Qs.stringify(data))
       .then((response) => {
         resolve(response.data);
       }, (err) => {
