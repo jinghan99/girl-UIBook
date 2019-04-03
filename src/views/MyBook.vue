@@ -34,20 +34,11 @@ export default {
   },
   mounted() {
     alert('mounted');
-
-
-    // get或者post , api为接口地址
-    this.$axios.get('http://localhost:8085/test', {
-      params: { // post不需要params:这部分
-        // 请求参数
-      },
-    })
-      .then((res) => { // res是返回结果
-        // 你的下一步操作 例:
-        this.books = res.data; // 存数据
-      })
-      .catch((err) => { // 请求失败就会捕获报错信息
-        this.books = err; // 存数据
+    this.$fetch('http://localhost:8085/test')
+      .then((data) => {
+        this.books = data; // 存数据
+      }).catch((err) => {
+        alert(err);
       });
   },
 };

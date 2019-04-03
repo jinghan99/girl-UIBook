@@ -1,5 +1,5 @@
-import Vue from 'vue';
 import axios from 'axios';
+import qs from 'qs';
 import { Toast } from 'vant';
 // Full config:  https://github.com/axios/axios#request-config
 // axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
@@ -38,14 +38,19 @@ const errorHandle = (status) => {
       tip('请求的资源不存在');
       break;
     default:
-      tip('未知错误');
+      tip('连接失败');
   }
 };
 
 const httpConfig = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+  timeout: 1000 * 12,
+  withCredentials: true,
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Access-Control-Allow-Origin': '*', // 指定允许其他域名访问
+  },
 };
 
 const http = axios.create(httpConfig);
@@ -63,7 +68,6 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   // 请求成功
   (res) => {
-    // (res.status === 200 ? Promise.resolve(res) : Promise.reject(res))
     if (res.status === 200) {
       return Promise.resolve(res);
     }
@@ -73,26 +77,49 @@ http.interceptors.response.use(
   },
 
 
-  error => Promise.reject(error),
+  (error) => {
+    if (error) {
+      // 请求已发出，但是不在2xx的范围
+      errorHandle(error.status);
+    }
+    return Promise.reject(error);
+  },
 );
 
-Plugin.install = function () {
-  Vue.axios = http;
-  window.axios = http;
-  Object.defineProperties(Vue.prototype, {
-    axios: {
-      get() {
-        return http;
-      },
-    },
-    $axios: {
-      get() {
-        return http;
-      },
-    },
+/**
+ * 封装get方法
+ * @param url
+ * @param data
+ * @returns {Promise}
+ */
+
+export function fetch(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    http.get(url, {
+      params,
+    })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
-};
+}
+/**
+ * 封装post请求
+ * @param url
+ * @param data
+ * @returns {Promise}
+ */
 
-Vue.use(Plugin);
-
-export default Plugin;
+export function post(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    http.post(url, data)
+      .then((response) => {
+        resolve(response.data);
+      }, (err) => {
+        reject(err);
+      });
+  });
+}
