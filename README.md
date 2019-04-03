@@ -1,4 +1,4 @@
-# book
+# girl_book
 
 ## Project setup
 ```
