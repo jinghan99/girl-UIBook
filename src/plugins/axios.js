@@ -1,10 +1,6 @@
-import axios from 'axios';
+import Axios from 'axios';
 import Qs from 'qs';
 import { Toast } from 'vant';
-// Full config:  https://github.com/axios/axios#request-config
-// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
-// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 /**
  * 提示函数
@@ -43,9 +39,9 @@ const errorHandle = (status) => {
 };
 
 const httpConfig = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
+  baseURL: 'http://192.168.31.57:9002',
   timeout: 1000 * 12,
-  withCredentials: true,
+  withCredentials: false,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json; charset=UTF-8',
@@ -53,7 +49,7 @@ const httpConfig = {
   },
 };
 
-const http = axios.create(httpConfig);
+const http = Axios.create(httpConfig);
 
 /**
  * 请求拦截器
