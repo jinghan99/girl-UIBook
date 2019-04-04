@@ -8,7 +8,7 @@ exports.lastChapter = (chapter) => {
   return chapter;
 };
 exports.shortIntro = (chapter) => {
-  const i = 40;
+  const i = 35;
   if (chapter.length > i) {
     return chapter.substring(0, i);
   }

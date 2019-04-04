@@ -1,5 +1,8 @@
 <template>
   <div class="rank">
+    <van-nav-bar title="排行榜" >
+      <van-icon name="search" slot="right" />
+    </van-nav-bar>
     <van-tabs  v-model="active" sticky swipeable>
       <van-tab v-for="(tab,index) in tabs" :key="index" :title="tab.ranking.title">
         <div class="row-book" v-for="(book,index) in tab.ranking.books" :key="index">
