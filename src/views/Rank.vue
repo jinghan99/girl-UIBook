@@ -1,14 +1,18 @@
 <template>
   <div class="rank">
-    <van-tabs  v-model="active" sticky animated>
+    <van-tabs  v-model="active" sticky swipeable>
       <van-tab v-for="(tab,index) in tabs" :key="index" :title="tab.ranking.title">
         <div class="row-book" v-for="(book,index) in tab.ranking.books" :key="index">
           <img class="book-img" :src=" 'http://statics.zhuishushenqi.com'+book.cover ">
           <div class="book" >
             <p><span class="book-title">{{book.title}}</span></p>
-            <p>
-              <span class="book-author">{{book.author}}</span>
-              <span class="book-author">{{book.minorCate}}</span>
+            <p class="rank-auth">
+              <span class="book-author">
+                <van-tag plain  type="success">{{book.author}}</van-tag>
+                </span>
+              <span class="book-author">
+                <van-tag plain  > {{book.minorCate}}</van-tag>
+               </span>
             </p>
             <p class="book-shortIntro">
               <span >
@@ -60,6 +64,9 @@ export default {
     background-color: #f7f7f7;
 
   }
+  .rank-auth{
+    margin-top: -0.5rem;
+  }
   .row-book{
     margin-top: 1rem;
     height: 6rem;
@@ -74,7 +81,7 @@ export default {
     margin-left: 1rem;
   }
   .book-shortIntro{
-    margin-top: -1rem;
+    margin-top: -0.5rem;
   }
   .book-shortIntro span{
     margin-left: 1rem;
