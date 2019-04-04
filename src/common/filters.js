@@ -7,3 +7,10 @@ exports.lastChapter = (chapter) => {
   }
   return chapter;
 };
+exports.shortIntro = (chapter) => {
+  const i = 25;
+  if (chapter.length > i) {
+    return chapter.substring(0, i);
+  }
+  return chapter;
+};
